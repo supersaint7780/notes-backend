@@ -21,5 +21,6 @@ router.route("/login").post(loginUser);
 router.route("/logout").get(verifyJWT, logoutUser);
 router.route("/current-user").get(verifyJWT, getCurrentUser);
 router.route("/update-account").patch(verifyJWT, updateAccountDetails);
+router.route("/change-password").patch(verifyJWT, changeCurrentPassword);
 
 export default router;
