@@ -87,4 +87,6 @@ userSchema.methods.generateRefreshToken = function () {
   );
 };
 
+// NOTE: methods must be added to the schema before compiling it with mongoose.model()
+
 export const User = mongoose.model("User", userSchema);
