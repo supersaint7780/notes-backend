@@ -1,1 +1,1 @@
-export const DB_NAME = "notehub"
+export const DB_NAME = "notehub";
