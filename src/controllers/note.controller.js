@@ -121,7 +121,7 @@ const pinNote = asyncHandler(async (req, res) => {
 
   const updatedNote = await Note.findByIdAndUpdate(
     id,
-    { pinned: true },
+    { isPinned: true },
     { new: true }
   );
 
