@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
+const app = express();
+
 // middleware configuration
 app.use(
   cors({
@@ -27,6 +29,8 @@ app.use(express.static("public"));
 
 app.use(cookieParser());
 
-const app = express();
+import userRouter from "./routes/user.routes.js";
+
+app.use("/api/v1/user", userRouter);
 
 export { app };
