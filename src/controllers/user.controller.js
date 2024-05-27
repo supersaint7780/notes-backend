@@ -102,20 +102,24 @@ const loginUser = asyncHandler(async (req, res) => {
     "-password -refreshToken"
   );
 
+  res.cookie("accessToken", accessToken, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "None",
+    maxAge: 24 * 60 * 60 * 1000,
+  });
+
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    secure: false,
+    sameSite: "None",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  })
+
+  console.log(res);
+
   return res
     .status(200)
-    .cookie("accessToken", accessToken, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "None",
-      maxAge: 24 * 60 * 60 * 1000,
-    })
-    .cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "None",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    })
     .json(
       new ApiResponse(
         200,
