@@ -101,13 +101,21 @@ const loginUser = asyncHandler(async (req, res) => {
   const loggedInUser = await User.findById(user._id).select(
     "-password -refreshToken"
   );
-  const options = {
-    httpOnly: true,
-  };
+
   return res
     .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
+    .cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "None",
+      maxAge: 24 * 60 * 60 * 1000,
+    })
+    .cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "None",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    })
     .json(
       new ApiResponse(
         200,
@@ -136,14 +144,20 @@ const logoutUser = asyncHandler(async (req, res) => {
     }
   );
 
-  const options = {
-    httpOnly: true,
-  };
-
   return res
     .status(200)
-    .clearCookie("accessToken", options)
-    .clearCookie("refreshToken", options)
+    .clearCookie("accessToken", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "None",
+      maxAge: 24 * 60 * 60 * 1000,
+    })
+    .clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "None",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    })
     .json(new ApiResponse(200, {}, "User Logged Out Succesfully"));
 });
 
@@ -240,14 +254,20 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
       user._id
     );
 
-    const options = {
-      httpOnly: true,
-    };
-
     return res
       .status(200)
-      .cookie("accessToken", accessToken, options)
-      .cookie("refreshToken", refreshToken, options)
+      .cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "None",
+        maxAge: 24 * 60 * 60 * 1000,
+      })
+      .cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "None",
+        maxAge: 24 * 60 * 60 * 1000,
+      })
       .json(
         new ApiResponse(
           200,
