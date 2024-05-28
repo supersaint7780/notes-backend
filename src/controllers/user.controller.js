@@ -114,23 +114,21 @@ const loginUser = asyncHandler(async (req, res) => {
     secure: true,
     sameSite: "None",
     maxAge: 7 * 24 * 60 * 60 * 1000,
-  })
+  });
 
   console.log(res);
 
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        {
-          user: loggedInUser,
-          accessToken,
-          refreshToken,
-        },
-        "User Logged In successfully"
-      )
-    );
+  return res.status(200).json(
+    new ApiResponse(
+      200,
+      {
+        user: loggedInUser,
+        accessToken,
+        refreshToken,
+      },
+      "User Logged In successfully"
+    )
+  );
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
@@ -176,6 +174,20 @@ const getCurrentUser = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(new ApiResponse(200, user, "Current User Fetched Succesfully"));
+});
+
+const checkAuthStatus = asyncHandler(async (req, res) => {
+  const user = req.user;
+  const isAuthenticated = !user ? false : true;
+  return res
+    .status(isAuthenticated ? 200 : 400)
+    .json(
+      new ApiResponse(
+        isAuthenticated ? 200 : 400,
+        { isAuthenticated: isAuthenticated },
+        `User is ${!isAuthenticated && "not"} authenticated`
+      )
+    );
 });
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
@@ -295,4 +307,5 @@ export {
   changeCurrentPassword,
   getCurrentUser,
   updateAccountDetails,
+  checkAuthStatus,
 };
