@@ -116,22 +116,34 @@ const pinNote = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Not Found: Note not found");
   }
   if (!note.owner.equals(user._id)) {
-    throw new ApiError(403, "Forbidden: User not authorized to pin this note");
+    throw new ApiError(
+      403,
+      `Forbidden: User not authorized to ${note.isPinned ? "unpin" : "pin"} this note`
+    );
   }
 
   const updatedNote = await Note.findByIdAndUpdate(
     id,
-    { isPinned: true },
+    { isPinned: !note.isPinned },
     { new: true }
   );
 
   if (!updatedNote) {
-    throw new ApiError(500, "Internal Server Error: Unable to pin note");
+    throw new ApiError(
+      500,
+      `Internal Server Error: Unable to ${note.isPinned ? "unpin" : "pin"} note`
+    );
   }
 
   return res
     .status(200)
-    .json(new ApiResponse(200, updatedNote, "Note pinned successfully"));
+    .json(
+      new ApiResponse(
+        200,
+        updatedNote,
+        `Note ${note.isPinned ? "unpinned" : "pinned"} successfully`
+      )
+    );
 });
 
 const getPinnedNotes = asyncHandler(async (req, res) => {
