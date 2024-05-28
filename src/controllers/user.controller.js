@@ -116,8 +116,6 @@ const loginUser = asyncHandler(async (req, res) => {
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
-  console.log(res);
-
   return res.status(200).json(
     new ApiResponse(
       200,
