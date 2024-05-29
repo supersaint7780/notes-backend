@@ -177,10 +177,10 @@ const checkAuthStatus = asyncHandler(async (req, res) => {
   const user = req.user;
   const isAuthenticated = !user ? false : true;
   return res
-    .status(isAuthenticated ? 200 : 400)
+    .status(isAuthenticated ? 200 : 401)
     .json(
       new ApiResponse(
-        isAuthenticated ? 200 : 400,
+        isAuthenticated ? 200 : 401,
         { isAuthenticated: isAuthenticated },
         `User is ${!isAuthenticated && "not"} authenticated`
       )
