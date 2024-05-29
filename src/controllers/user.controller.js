@@ -87,7 +87,7 @@ const loginUser = asyncHandler(async (req, res) => {
   });
 
   if (!user) {
-    throw new ApiError(409, "User does not exits");
+    throw new ApiError(409, "User does not exist");
   }
   const isPasswordValid = await user.isPasswordCorrect(password);
   if (!isPasswordValid) {
@@ -98,9 +98,9 @@ const loginUser = asyncHandler(async (req, res) => {
     user._id
   );
 
-  const loggedInUser = await User.findById(user._id).select(
-    "-password -refreshToken"
-  );
+  // const loggedInUser = await User.findById(user._id).select(
+  //   "-password -refreshToken"
+  // );
 
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
@@ -120,7 +120,6 @@ const loginUser = asyncHandler(async (req, res) => {
     new ApiResponse(
       200,
       {
-        user: loggedInUser,
         accessToken,
         refreshToken,
       },
